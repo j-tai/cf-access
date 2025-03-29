@@ -17,3 +17,7 @@ const jwt = req.headers['cf-access-jwt-assertion'];
 const claims = validate.orThrow(jwt);
 console.log(claims);
 ```
+
+## License
+
+MIT
