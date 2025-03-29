@@ -1,6 +1,6 @@
 {
     "name": "@jtai/cf-access",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "Super simple library for validating Cloudflare Access JWTs",
     "author": "Jasmine Tai <jtai@jtai.ca>",
     "license": "MIT",
