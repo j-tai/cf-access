@@ -11,8 +11,8 @@ publish version="$(read -p 'New version: ' v; echo $v)":
     grep '"version"' package.json
     yarn run package
     git add package.json
-    git commit -m "Bump version to $(cat {{version_file}})"
-    git tag v$(cat {{version_file}})" -m "v$(cat {{version_file}})"
+    git commit -m "Bump JS version to $(cat {{version_file}})"
+    git tag "js-v$(cat {{version_file}})" -m "v$(cat {{version_file}})"
     yarn npm publish
     git push
     git push --tags
