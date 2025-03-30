@@ -5,6 +5,9 @@ authors = ["Jasmine Tai <jtai@jtai.ca>"]
 edition = "2021"
 description = "Super simple library for validating Cloudflare Access JWTs"
 license = "MIT"
+documentation = "https://docs.rs/cf-access/latest/cf_access/"
+homepage = "https://github.com/j-tai/cf-access"
+repository = "https://github.com/j-tai/cf-access"
 
 [dependencies]
 jwtk = "0.4.0"
