@@ -35,6 +35,12 @@ pub enum Error {
     /// Invalid audience.
     #[error("token has invalid audience")]
     InvalidAud,
+    /// Missing `sub` claim in an identity token.
+    #[error("token is missing 'sub' claim")]
+    MissingSub,
+    /// Error from [`uuid`] crate.
+    #[error("UUID parse error: {0}")]
+    Uuid(#[from] uuid::Error),
     /// Missing environment variable.
     #[cfg(feature = "env")]
     #[error("missing environment variable '{0}'")]

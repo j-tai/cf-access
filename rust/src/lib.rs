@@ -24,19 +24,19 @@
 
 #![doc = include_str!("../README.md")]
 
+mod claims;
 mod error;
-mod token;
 
 use std::time::Duration;
 
 use jwtk::jwk::RemoteJwksVerifier;
-use jwtk::Claims;
 use reqwest::Client;
 
+pub use claims::*;
 pub use error::Error;
 pub use jwtk;
 pub use reqwest;
-pub use token::Token;
+pub use uuid;
 
 /// A validator for Cloudflare Access JWTs.
 pub struct Validator {
@@ -75,13 +75,30 @@ impl Validator {
     }
 
     /// Validates the JWT.
-    pub async fn validate(&self, jwt: &str) -> Result<Claims<Token>, Error> {
-        let mut token = self.inner.verify(jwt).await?;
+    pub async fn validate(&self, jwt: &str) -> Result<Claims, Error> {
+        let mut token = self.inner.verify::<ClaimsExtra>(jwt).await?;
         if !token.claims().aud.iter().any(|aud| **aud == self.audience) {
             return Err(Error::InvalidAud);
         }
+        let claims = std::mem::take(token.claims_mut());
 
-        Ok(std::mem::take(token.claims_mut()))
+        let token = match claims.extra {
+            ClaimsExtra::Identity {
+                email,
+                ty,
+                identity_nonce,
+                country,
+            } => IdentityClaims {
+                sub: claims.sub.ok_or(Error::MissingSub)?.parse()?,
+                email,
+                ty,
+                identity_nonce,
+                country,
+            }
+            .into(),
+            ClaimsExtra::Service(claims) => claims.into(),
+        };
+        Ok(token)
     }
 }
 
