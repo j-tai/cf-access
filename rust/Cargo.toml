@@ -1,6 +1,6 @@
 [package]
 name = "cf-access"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Jasmine Tai <jtai@jtai.ca>"]
 edition = "2021"
 description = "Super simple library for validating Cloudflare Access JWTs"
